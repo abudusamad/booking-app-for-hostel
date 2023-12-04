@@ -3,13 +3,23 @@ import { Nunito } from "next/font/google";
 import type { Metadata } from "next";
 
 import "./globals.css";
-import Navbar from "@/components/Navbar/navbar";
+import Navbar from "@/app/components/Navbar/navbar";
+import { siteConfig } from "@/config/site";
 
 const inter = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "booking app",
-	description: "Cool place to book stuff",
+	title: {	
+		default: siteConfig.name,
+		template:`%s | ${siteConfig.name}`
+	},
+	description: siteConfig.description,
+	icons: [
+		{
+			url: "/logo.svg",
+			href:"/logo.svg",
+		}
+	]
 };
 
 export default function RootLayout({
