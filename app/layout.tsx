@@ -3,8 +3,8 @@ import { Nunito } from "next/font/google";
 import type { Metadata } from "next";
 
 import "./globals.css";
-import Navbar from "@/app/components/Navbar/navbar";
 import { siteConfig } from "@/config/site";
+import Navbar from "./components/Navbar/navbar";
 
 const inter = Nunito({ subsets: ["latin"] });
 
