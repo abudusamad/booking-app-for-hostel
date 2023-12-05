@@ -2,11 +2,11 @@ import Image from "next/image";
 
 const Logo = () => {
     return (<Image
-        src="/logo.svg"
+        src="/images/logo.png"
         alt="Logo"
         className="hidden md:block cursor-pointer"
-        width={50}
-        height={50}
+        width={100}
+        height={100}
     
     />);
 }
