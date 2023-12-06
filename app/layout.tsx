@@ -2,24 +2,25 @@ import { Nunito } from "next/font/google";
 
 import type { Metadata } from "next";
 
-import "./globals.css";
 import { siteConfig } from "@/config/site";
 import Navbar from "./components/Navbar/navbar";
+import Modal from "./components/modal/modal";
+import "./globals.css";
 
 const inter = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: {	
+	title: {
 		default: siteConfig.name,
-		template:`%s | ${siteConfig.name}`
+		template: `%s | ${siteConfig.name}`,
 	},
 	description: siteConfig.description,
 	icons: [
 		{
 			url: "/logo.svg",
-			href:"/logo.svg",
-		}
-	]
+			href: "/logo.svg",
+		},
+	],
 };
 
 export default function RootLayout({
@@ -29,10 +30,11 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-      <body className={inter.className}>
-        <Navbar/>
-        {children}
-      </body>
+			<body className={inter.className}>
+				<Navbar />
+				<Modal isOpen title="Modal Test" body={"dsfsdfasd" } />
+				{children}
+			</body>
 		</html>
 	);
 }
