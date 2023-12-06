@@ -6,6 +6,7 @@ import { siteConfig } from "@/config/site";
 import Navbar from "./components/Navbar/navbar";
 import Modal from "./components/modal/modal";
 import "./globals.css";
+import ModalProvider from "./providers/modalProvider";
 
 const inter = Nunito({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
+				<ModalProvider/>
 				<Navbar />
 				{children}
 			</body>
