@@ -32,7 +32,6 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={inter.className}>
 				<Navbar />
-				<Modal isOpen title="Modal Test" body={"dsfsdfasd" } />
 				{children}
 			</body>
 		</html>
