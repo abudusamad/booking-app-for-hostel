@@ -1,17 +1,16 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import bcrypt from "bcrypt";
-import { AuthOptions } from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import prisma from "@/lib/prismadb";
-import NextAuth from "next-auth/next";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GithubProivder from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: AuthOptions = {
 	adapter: PrismaAdapter(prisma),
 	providers: [
-		GithubProivder({
+		GithubProvider({
 			clientId: process.env.GITHUB_ID as string,
 			clientSecret: process.env.GITHUB_SECRET as string,
 		}),
@@ -23,17 +22,19 @@ export const authOptions: AuthOptions = {
 			name: "credentials",
 			credentials: {
 				email: { label: "email", type: "text" },
-				password: { label: "Password", type: "password" },
+				password: { label: "password", type: "password" },
 			},
 			async authorize(credentials) {
 				if (!credentials?.email || !credentials?.password) {
 					throw new Error("Invalid credentials");
 				}
+
 				const user = await prisma.user.findUnique({
 					where: {
 						email: credentials.email,
 					},
 				});
+
 				if (!user || !user?.hashedPassword) {
 					throw new Error("Invalid credentials");
 				}
@@ -42,6 +43,7 @@ export const authOptions: AuthOptions = {
 					credentials.password,
 					user.hashedPassword
 				);
+
 				if (!isCorrectPassword) {
 					throw new Error("Invalid credentials");
 				}

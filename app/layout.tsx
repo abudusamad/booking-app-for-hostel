@@ -4,9 +4,10 @@ import type { Metadata } from "next";
 
 import { siteConfig } from "@/config/site";
 import Navbar from "./components/Navbar/navbar";
-import Modal from "./components/modal/modal";
+import CientOnly from "./components/clientOnly";
 import "./globals.css";
 import ModalProvider from "./providers/modalProvider";
+import ToastProvider from "./providers/toastprovider";
 
 const inter = Nunito({ subsets: ["latin"] });
 
@@ -32,8 +33,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<ModalProvider/>
-				<Navbar />
+				
+					<ToastProvider />
+					<ModalProvider />
+					<Navbar />
+			
 				{children}
 			</body>
 		</html>
