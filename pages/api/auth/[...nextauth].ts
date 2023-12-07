@@ -37,8 +37,11 @@ export const authOptions: AuthOptions = {
 
 				if (!user || !user?.hashedPassword) {
 					throw new Error("Invalid credentials");
+				} else {
+					if (user.email === credentials.email) {
+						console.log("Eamil is already in use");
+					}
 				}
-
 				const isCorrectPassword = await bcrypt.compare(
 					credentials.password,
 					user.hashedPassword
