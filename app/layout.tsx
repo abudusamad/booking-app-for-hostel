@@ -3,8 +3,8 @@ import { Nunito } from "next/font/google";
 import type { Metadata } from "next";
 
 import { siteConfig } from "@/config/site";
+import getCurrentUser from "./actions/getCurrentUser";
 import Navbar from "./components/Navbar/navbar";
-import CientOnly from "./components/clientOnly";
 import "./globals.css";
 import ModalProvider from "./providers/modalProvider";
 import ToastProvider from "./providers/toastprovider";
@@ -25,19 +25,19 @@ export const metadata: Metadata = {
 	],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
+	const currentUser = await getCurrentUser();
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				
-					<ToastProvider />
-					<ModalProvider />
-					<Navbar />
-			
+				<ToastProvider />
+				<ModalProvider />
+				<Navbar currentUser={currentUser} />
+
 				{children}
 			</body>
 		</html>

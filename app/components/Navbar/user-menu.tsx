@@ -7,8 +7,16 @@ import MenuItem from "./menu-item";
 import { MdOutlineLogin, MdOutlineLogout } from "react-icons/md";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
+import { User } from "@prisma/client";
+import { signOut } from "next-auth/react";
 
-const UserMenu = () => {
+interface UserMenuProps {
+	currentUser?: User | null;
+}
+
+const UserMenu = ({
+	currentUser,
+}:UserMenuProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 
@@ -41,8 +49,30 @@ const UserMenu = () => {
                 "
 				>
 					<div className="flex flex-col cursor-pointer">
-						<MenuItem label="Log In" onclick={loginModal.onOpen} icon={MdOutlineLogout} />
-						<MenuItem label="Logout" onclick={registerModal.onOpen}  icon={MdOutlineLogin}/>
+						{currentUser ? (
+							<>
+								<MenuItem label="My trips" onClick={() => {}} />
+								<MenuItem label="My favorites" onClick={() => {}} />
+								<MenuItem label="My reservation" onClick={() => {}} />
+								<MenuItem label="my properties" onClick={() => {}} />
+								<MenuItem label="Airbnb your home" onClick={() => { }} />
+								<hr />
+								<MenuItem label="Layout" onClick={signOut} />
+							</>
+						) : (
+							<>
+								<MenuItem
+									label="Log In"
+									onClick={loginModal.onOpen}
+									icon={MdOutlineLogout}
+								/>
+								<MenuItem
+									label="Sign u"
+									onClick={registerModal.onOpen}
+									icon={MdOutlineLogin}
+								/>
+							</>
+						)}
 					</div>
 				</div>
 			)}
