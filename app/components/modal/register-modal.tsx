@@ -4,6 +4,8 @@ import useRegisterModal from "@/app/hooks/useRegisterModal";
 import axios from "axios";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import Heading from "../Heading";
+import Modal from "./modal";
 
 const RegisterModal = () => {
 	const registerModal = useRegisterModal();
@@ -22,15 +24,15 @@ const RegisterModal = () => {
 			phone: "",
 		},
 	});
-	const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
+	const onSubmit: SubmitHandler<FieldValues> = (data) => {
 		setIsLoading(true);
+
 		axios
 			.post("/api/register", data)
 			.then(() => {
 				console.log("success");
 				registerModal.onClose();
-
-				setIsLoading(true);
 			})
 			.catch(() => {
 				console.log("error");
@@ -40,8 +42,23 @@ const RegisterModal = () => {
 			});
 	};
 
-	const bodyContent = <div className="flex flex-col gap-4"></div>;
-	return <div></div>;
+	const bodyContent = (
+		<div className="flex flex-col gap-4">
+			<Heading title="Welcome to Airbnb" subtitle="Create an account" />
+		</div>
+	);
+
+	return (
+		<Modal
+			disabled={isLoading}
+			isOpen={registerModal.isOpen}
+			title="Login"
+			onClose={registerModal.onClose}
+            actionLabel="Continue"
+            onSubmit={handleSubmit(onSubmit)}
+            body={bodyContent}
+		/>
+	);
 };
 
 export default RegisterModal;
