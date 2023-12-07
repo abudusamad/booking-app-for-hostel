@@ -6,11 +6,14 @@ import { Avatar } from "../Avatar";
 import MenuItem from "./menu-item";
 import { MdOutlineLogin, MdOutlineLogout } from "react-icons/md";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 const UserMenu = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
+
 	const registerModal = useRegisterModal();
+	const loginModal = useLoginModal();	
 
 	const togggleOpen = useCallback(() => {
 		setIsOpen((value) => !value);
@@ -38,8 +41,8 @@ const UserMenu = () => {
                 "
 				>
 					<div className="flex flex-col cursor-pointer">
-						<MenuItem label="Log In" onclick={registerModal.onOpen} icon={MdOutlineLogout} />
-						<MenuItem label="Logout" onclick={() => {}}  icon={MdOutlineLogin}/>
+						<MenuItem label="Log In" onclick={loginModal.onOpen} icon={MdOutlineLogout} />
+						<MenuItem label="Logout" onclick={registerModal.onOpen}  icon={MdOutlineLogin}/>
 					</div>
 				</div>
 			)}
