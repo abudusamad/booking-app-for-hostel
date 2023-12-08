@@ -1,3 +1,5 @@
+"use client";
+
 import { BsSnow } from "react-icons/bs";
 import { FaSkiing } from "react-icons/fa";
 import {
@@ -15,6 +17,7 @@ import { MdOutlineVilla } from "react-icons/md";
 import { TbBeach, TbMountain, TbPool } from "react-icons/tb";
 import CategoriesItem from "../CategoriesItem";
 import { Container } from "../Containter";
+import { usePathname, useSearchParams } from "next/navigation";
 
 const categories = [
 	{
@@ -95,6 +98,14 @@ const categories = [
 ];
 
 const Categories = () => {
+	const params = useSearchParams();
+	const selectCategory = params?.get("category");
+	const pathname = usePathname();
+	const isHomePage = pathname === "/"
+	if (!isHomePage) {
+		return null;
+	}
+
 	return (
 		<Container>
 			<div className="flex items-center justify-between overflow-x-auto">
@@ -103,6 +114,7 @@ const Categories = () => {
 						key={category.label}
 						label={category.label}
 						icon={category.icon}
+						select={selectCategory === category.label}
 					/>
 				))}
 			</div>
