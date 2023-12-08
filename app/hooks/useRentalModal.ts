@@ -7,7 +7,7 @@ interface RentalModalStore {
 }
 
 const useRentalModal = create<RentalModalStore>((set) => ({
-	isOpen: true,
+	isOpen: false,
 	onClose: () => set({ isOpen: false }),
 	onOpen: () => set({ isOpen: true }),
 }));

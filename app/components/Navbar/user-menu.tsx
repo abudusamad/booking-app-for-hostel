@@ -9,6 +9,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { MdOutlineLogin, MdOutlineLogout } from "react-icons/md";
 import { Avatar } from "../Avatar";
 import MenuItem from "./menu-item";
+import useRentalModal from "@/app/hooks/useRentalModal";
 
 interface UserMenuProps {
 	currentUser?: SafeUser | null;
@@ -19,6 +20,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
 
 	const registerModal = useRegisterModal();
 	const loginModal = useLoginModal();
+	const rentalModal = useRentalModal();
 
 	const togggleOpen = useCallback(() => {
 		setIsOpen((value) => !value);
@@ -26,7 +28,9 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
 	return (
 		<div className="relative">
 			<div className="flex items-center gap-3">
-				<div className="text-semibold px-4 py-2 rounded-full hover:bg-neutral-100 transition cursor-pointer text-sm hidden md:block">
+				<div
+					onClick={rentalModal.onOpen}
+					className="text-semibold px-4 py-2 rounded-full hover:bg-neutral-100 transition cursor-pointer text-2xl hidden md:block">
 					Airbnb your home
 				</div>
 				<div
@@ -52,7 +56,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
 								<MenuItem label="My favorites" onClick={() => {}} />
 								<MenuItem label="My reservation" onClick={() => {}} />
 								<MenuItem label="my properties" onClick={() => {}} />
-								<MenuItem label="Airbnb your home" onClick={() => {}} />
+								<MenuItem label="Airbnb your home" onClick={rentalModal.onOpen} />
 								<hr />
 								<MenuItem label="Layout" onClick={signOut} />
 							</>

@@ -50,8 +50,8 @@ const CategoriesItem = ({
         ${select ? `text-neutral-800` : `text-neutral-500`}
 
         `}>
-            <Icon size={26} />
-            <div className="font-medium text-sm">{label}</div>
+            <Icon size={30} />
+            <div className="font-medium text-xl">{label}</div>
         </div>
        
 );
