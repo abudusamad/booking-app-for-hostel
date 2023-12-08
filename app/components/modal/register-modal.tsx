@@ -16,6 +16,7 @@ import Heading from "../Heading";
 import Input from "../inputs/Input";
 import Modal from "./modal";
 
+
 const RegisterModal = () => {
 	const registerModal = useRegisterModal();
 	const loginModal = useLoginModal();

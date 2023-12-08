@@ -19,6 +19,8 @@ const UserMenu = ({
 }:UserMenuProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 
+	console.log(currentUser);
+
 
 	const registerModal = useRegisterModal();
 	const loginModal = useLoginModal();	
