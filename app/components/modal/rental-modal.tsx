@@ -1,13 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import { categories } from "@/app/components/Navbar/categories";
+import { useMemo, useState } from "react";
 
 import useRentalModal from "@/app/hooks/useRentalModal";
 import { useRouter } from "next/navigation";
+import { FieldValues, useForm } from "react-hook-form";
 import Heading from "../Heading";
-import Modal from "./modal";
 import CategoryCard from "../inputs/category-card";
+import Modal from "./modal";
 
 enum STEPS {
 	CATEGORY = 0,
@@ -24,6 +25,26 @@ const RentalModal = () => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
 	const [step, setStep] = useState(STEPS.CATEGORY);
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		setValue,
+		watch,
+	} = useForm<FieldValues>({
+		mode: "onBlur",
+	});
+
+	const category = watch("category");
+
+	const setCustomeValue = (id: string, value: any) => {
+		setValue(id, value, {
+			shouldValidate: true,
+			shouldDirty: true,
+			shouldTouch: true,
+		});
+	};
 
 	const onBack = () => {
 		if (step === STEPS.CATEGORY) {
@@ -54,14 +75,14 @@ const RentalModal = () => {
 				subtitle="Pick a category that best describes your property"
 			/>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto">
-				{categories.map((category) => (
-					<div key={category.label}>
+				{categories.map((item) => (
+					<div key={item.label} className="col-span-1">
 						<CategoryCard
-							label={category.label}
-							icon={category.icon}
-							description={category.description}
-							selected={category.label === "Caves"}
-							onClick={() => {}}
+							label={item.label}
+							icon={item.icon}
+							description={item.description}
+							selected={category === item.label}
+							onClick={(category) => setCustomeValue("category", category)}
 						/>
 					</div>
 				))}
