@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import Heading from "../Heading";
 import CategoryCard from "../inputs/category-card";
+import ContrySelect from "../inputs/country-select";
 import Modal from "./modal";
 
 enum STEPS {
@@ -37,6 +38,7 @@ const RentalModal = () => {
 	});
 
 	const category = watch("category");
+	const location = watch("location");
 
 	const setCustomeValue = (id: string, value: any) => {
 		setValue(id, value, {
@@ -89,6 +91,20 @@ const RentalModal = () => {
 			</div>
 		</div>
 	);
+	if (step === STEPS.LOCATION) {
+		bodyContent = (
+			<div>
+				<Heading
+					title="Where's your place located?"
+					subtitle="Guests will only get your exact address once they've booked a reservation."
+				/>
+				<ContrySelect
+					value={location}
+					onChange={(value) => setCustomeValue("location", value)}
+				/>
+			</div>
+		);
+	}
 
 	return (
 		<Modal
