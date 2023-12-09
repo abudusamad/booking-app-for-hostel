@@ -46,7 +46,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
 			{isOpen && (
 				<div
 					className="
-                absolute rounded-xl shadow-md w-[20vw] md:3/4 bg-white overflow-hidden right-0 top-12 text-sm z-10
+                absolute rounded-xl shadow-md w-[20vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm z-10
                 "
 				>
 					<div className="flex flex-col cursor-pointer">
@@ -65,12 +65,12 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
 								<MenuItem
 									label="Log In"
 									onClick={loginModal.onOpen}
-									icon={MdOutlineLogout}
+									
 								/>
 								<MenuItem
-									label="Sign u"
+									label="Sign Up"
 									onClick={registerModal.onOpen}
-									icon={MdOutlineLogin}
+							
 								/>
 							</>
 						)}

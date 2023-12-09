@@ -6,6 +6,15 @@ import useRentalModal from "@/app/hooks/useRentalModal";
 import { useRouter } from "next/navigation";
 import Modal from "./modal";
 
+enum STEPS{
+	CATEGORY = 0,
+	LOCATION = 1,
+	INFO = 2,
+	IMAGES = 3,
+	DESCRIPTION = 4,
+	PRICE = 5,
+}
+
 const RentalModal = () => {
 	const rentalModal = useRentalModal();
 
