@@ -10,6 +10,8 @@ import Heading from "../Heading";
 import CategoryCard from "../inputs/category-card";
 import ContrySelect from "../inputs/country-select";
 import Modal from "./modal";
+import dynamic from "next/dynamic";
+
 
 enum STEPS {
 	CATEGORY = 0,
@@ -39,6 +41,11 @@ const RentalModal = () => {
 
 	const category = watch("category");
 	const location = watch("location");
+
+	const Map = useMemo(() => dynamic(() => import("../Map"), {
+		ssr: false,
+	}), [location]);
+
 
 	const setCustomeValue = (id: string, value: any) => {
 		setValue(id, value, {
@@ -102,6 +109,7 @@ const RentalModal = () => {
 					value={location}
 					onChange={(value) => setCustomeValue("location", value)}
 				/>
+				<Map center={location?.latlng} />
 			</div>
 		);
 	}
