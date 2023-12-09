@@ -19,7 +19,7 @@ import CategoriesItem from "../CategoriesItem";
 import { Container } from "../Containter";
 import { usePathname, useSearchParams } from "next/navigation";
 
-const categories = [
+export const categories = [
 	{
 		label: "Beach",
 		icon: TbBeach,

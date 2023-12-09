@@ -30,7 +30,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
 			<div className="flex items-center gap-3">
 				<div
 					onClick={rentalModal.onOpen}
-					className="text-semibold px-4 py-2 rounded-full hover:bg-neutral-100 transition cursor-pointer text-2xl hidden md:block">
+					className="text-semibold px-4 py-2 rounded-full hover:bg-neutral-100 transition cursor-pointer text-xl hidden md:block">
 					Airbnb your home
 				</div>
 				<div

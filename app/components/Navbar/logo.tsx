@@ -9,8 +9,8 @@ const Logo = () => {
         src="/images/logo.png"
         alt="Logo"
         className="hidden md:block cursor-pointer"
-        width={150}
-        height={150}
+        width={100}
+        height={100}
         onClick={() => router.push("/")}
     
     />);
