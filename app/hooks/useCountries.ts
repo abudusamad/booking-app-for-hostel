@@ -4,12 +4,12 @@ const formattedCountries = countries.map((country) => ({
 	label: country.name.common,
 	value: country.cca2,
 	flag: country.flag,
-	latLng: country.latlng,
+	latlng: country.latlng,
 	region: country.region,
 	capital: country.capital,
 }));
 
-const useCountry = () => {
+const useCountries = () => {
 	const getAll = () => formattedCountries;
 
 	const getByValue = (value: string) => {
@@ -21,4 +21,4 @@ const useCountry = () => {
 	};
 };
 
-export default useCountry;
+export default useCountries;
