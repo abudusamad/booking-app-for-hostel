@@ -12,6 +12,7 @@ import ContrySelect from "../inputs/country-select";
 import Modal from "./modal";
 import dynamic from "next/dynamic";
 import Counter from "../inputs/counter";
+import ImageUpload from "../inputs/image-upload";
 
 
 enum STEPS {
@@ -55,6 +56,7 @@ const RentalModal = () => {
 	const guestCount = watch("guestCount");
 	const roomCount = watch("roomCount");
 	const bathroomCount = watch("bathroomCount");
+	const imageSrc = watch("imageSrc");
 
 	const Map = useMemo(() => dynamic(() => import("../Map"), {
 		ssr: false,
@@ -156,6 +158,19 @@ const RentalModal = () => {
 				/>
 			</div>
 		);
+	}
+	if (step === STEPS.IMAGES) {
+		bodyContent = (
+			<div className="flex flex-col gap-4" >
+				<Heading
+					title="Upload some photos"
+					subtitle="Guests love to see photos of your place before they book" />
+				<ImageUpload
+					onChange={(value) => setCustomeValue("imageSrc", value)}
+					value={imageSrc}/>
+				
+				</div>
+		)
 	}
 
 	return (
