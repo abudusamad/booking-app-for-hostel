@@ -11,6 +11,7 @@ import CategoryCard from "../inputs/category-card";
 import ContrySelect from "../inputs/country-select";
 import Modal from "./modal";
 import dynamic from "next/dynamic";
+import Counter from "../inputs/counter";
 
 
 enum STEPS {
@@ -36,11 +37,24 @@ const RentalModal = () => {
 		setValue,
 		watch,
 	} = useForm<FieldValues>({
-		mode: "onBlur",
+		defaultValues: {
+			category: " ",
+			location: null,
+			guestCount: 1,
+			roomCount: 1,
+			bathroomCount: 1,
+			imageSrc: "",
+			price: 1,
+			title: " ",
+			description: "",
+		},
 	});
 
 	const category = watch("category");
 	const location = watch("location");
+	const guestCount = watch("guestCount");
+	const roomCount = watch("roomCount");
+	const bathroomCount = watch("bathroomCount");
 
 	const Map = useMemo(() => dynamic(() => import("../Map"), {
 		ssr: false,
@@ -100,7 +114,7 @@ const RentalModal = () => {
 	);
 	if (step === STEPS.LOCATION) {
 		bodyContent = (
-			<div>
+			<div className="flex flex-col gap-4">
 				<Heading
 					title="Where's your place located?"
 					subtitle="Guests will only get your exact address once they've booked a reservation."
@@ -110,6 +124,36 @@ const RentalModal = () => {
 					onChange={(value) => setCustomeValue("location", value)}
 				/>
 				<Map center={location?.latlng} />
+			</div>
+		);
+	}
+	if (step === STEPS.INFO) {
+		bodyContent = (
+			<div className="flex flex-col gap-8">
+				<Heading
+					title="What's the name of your place?"
+					subtitle="What amenities do you offer?"
+				/>
+				<Counter
+					onChange={(value) => setCustomeValue("guestCount", value)}
+					value={guestCount}
+					title="Guest"
+					subtitle="How many guests can your place accommodate?"
+				/>
+				<hr />
+				<Counter
+					onChange={(value) => setCustomeValue("roomCount", value)}
+					value={roomCount}
+					title="Rooms"
+					subtitle="How many guests can your place accommodate?"
+				/>
+				<hr />
+				<Counter
+					onChange={(value) => setCustomeValue("bathroomCount", value)}
+					value={bathroomCount}
+					title="Bathroom"
+					subtitle="How many guests can your place accommodate?"
+				/>
 			</div>
 		);
 	}
