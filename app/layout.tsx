@@ -37,8 +37,11 @@ export default async function RootLayout({
 				<ToastProvider />
 				<ModalProvider />
 				<Navbar currentUser={currentUser} />
+				<main className="pb-20 pt-28">
 
 				{children}
+				</main>
+
 			</body>
 		</html>
 	);

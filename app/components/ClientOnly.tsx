@@ -6,7 +6,7 @@ interface Props {
 	children: React.ReactNode;
 }
 
-const CientOnly = ({ children }: Props) => {
+const ClientOnly = ({ children }: Props) => {
 	const [hasMounted, setHasMounted] = useState(false);
 
 	useEffect(() => {
@@ -19,4 +19,4 @@ const CientOnly = ({ children }: Props) => {
 	return <>{children}</>;
 };
 
-export default CientOnly;
+export default ClientOnly;
