@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 
 import { siteConfig } from "@/config/site";
 import getCurrentUser from "./actions/getCurrentUser";
+import ClientOnly from "./components/ClientOnly";
 import Navbar from "./components/Navbar/navbar";
 import "./globals.css";
 import ModalProvider from "./providers/modalProvider";
@@ -34,14 +35,12 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<ToastProvider />
-				<ModalProvider />
-				<Navbar currentUser={currentUser} />
-				<main className="pb-20 pt-28">
-
-				{children}
-				</main>
-
+				<ClientOnly>
+					<ToastProvider />
+					<ModalProvider />
+					<Navbar currentUser={currentUser} />
+					<main className="pb-20 pt-28">{children}</main>
+				</ClientOnly>
 			</body>
 		</html>
 	);
