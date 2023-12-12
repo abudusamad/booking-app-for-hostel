@@ -13,7 +13,7 @@ export type SafeUser = Omit<
 	emailVerified?: string | null;
 };
 
-export type SageReservations = Omit<
+export type SafeReservation = Omit<
 	Reservation,
 	"createdAt" | "startDate" | "endDate" | "listing"
 > & {

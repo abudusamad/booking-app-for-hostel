@@ -4,20 +4,54 @@ import { Container } from "@/app/components/Containter";
 import { categories } from "@/app/components/Navbar/categories";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingHead from "@/app/components/listings/ListtingHead";
-import { SafeListing, SafeUser } from "@/types";
-import { useMemo } from "react";
+import useLoginModal from "@/app/hooks/useLoginModal";
+import { SafeListing, SafeReservation, SafeUser } from "@/types";
+import { eachDayOfInterval } from "date-fns";
+import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
+import { Range } from "react-date-range";
+
+const initialDateRange = {
+	startDate: new Date(),
+	endDate: new Date(),
+	key: "selection",
+};
 
 interface ListingClientProps {
 	currentUser?: SafeUser | null;
 	listing: SafeListing & {
 		user: SafeUser;
 	};
+	reservation?: SafeReservation[];
 }
 
-const ListingClient = ({ listing, currentUser }: ListingClientProps) => {
+const ListingClient = ({
+	listing,
+	currentUser,
+	reservation,
+}: ListingClientProps) => {
+	const loginModal = useLoginModal();
+	const router = useRouter();
+
+	const disableDataes = useMemo(() => {
+		let dates: Date[] = [];
+
+		reservation?.forEach((reservation: any) => {
+			const range = eachDayOfInterval({
+				start: new Date(reservation.startDate),
+				end: new Date(reservation.endDate),
+			});
+			dates = [...dates, ...range];
+		});
+		return dates;
+	}, [reservation]);
+
 	const category = useMemo(() => {
 		return categories.find((category) => category.label === listing.category);
 	}, [listing.category]);
+
+	const [isLoading, setIsLoading] = useState(false);
+	const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
 	return (
 		<Container>
