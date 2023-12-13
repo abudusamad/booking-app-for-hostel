@@ -1,19 +1,20 @@
 "use client";
 
-import useCountries from "@/app/hooks/useCountries";
-import { SafeUser } from "@/types";
-import { Listing, Reservation } from "@prisma/client";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
-
 import { format } from "date-fns";
-import Image from "next/image";
+
+import useCountries from "@/app/hooks/useCountries";
+
 import Button from "../Button";
+import ClientOnly from "../ClientOnly";
+import { SafeListing ,SafeReservation, SafeUser} from "@/types";
 import HeartButton from "../HeardButton";
 
 interface ListingCardProps {
-	data: Listing;
-	reservation?: Reservation;
+	data: SafeListing;
+	reservation?: SafeReservation;
 	onAction?: (id: string) => void;
 	disabled?: boolean;
 	actionLabel?: string;
@@ -21,15 +22,15 @@ interface ListingCardProps {
 	currentUser?: SafeUser | null;
 }
 
-const ListingCard = ({
+const ListingCard: React.FC<ListingCardProps> = ({
 	data,
 	reservation,
 	onAction,
 	disabled,
 	actionLabel,
-	actionId,
+	actionId = "",
 	currentUser,
-}: ListingCardProps) => {
+}) => {
 	const router = useRouter();
 	const { getByValue } = useCountries();
 
@@ -39,9 +40,10 @@ const ListingCard = ({
 		(e: React.MouseEvent<HTMLButtonElement>) => {
 			e.stopPropagation();
 
-			if (disabled || !actionId) {
+			if (disabled) {
 				return;
 			}
+
 			onAction?.(actionId);
 		},
 		[disabled, onAction, actionId]
@@ -51,6 +53,7 @@ const ListingCard = ({
 		if (reservation) {
 			return reservation.totalPrice;
 		}
+
 		return data.price;
 	}, [reservation, data.price]);
 
@@ -59,13 +62,10 @@ const ListingCard = ({
 			return null;
 		}
 
-		const startDate = new Date(reservation.startDate);
-		const endDate = new Date(reservation.endDate);
+		const start = new Date(reservation.startDate);
+		const end = new Date(reservation.endDate);
 
-		return `${format(startDate, "dd MMM yyyy")} - ${format(
-			endDate,
-			"dd MMM yyyy"
-		)}`;
+		return `${format(start, "PP")} - ${format(end, "PP")}`;
 	}, [reservation]);
 
 	return (
@@ -106,7 +106,7 @@ const ListingCard = ({
 					</div>
 				</div>
 				<div className="font-semibold text-lg">
-					{location?.region}, {location?.label}-{location?.capital}
+					{location?.region}, {location?.label}
 				</div>
 				<div className="font-light text-neutral-500">
 					{reservationDate || data.category}
