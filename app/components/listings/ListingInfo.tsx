@@ -30,9 +30,6 @@ const ListingInfo = ({
 	locationValue,
 	category,
 }: ListingInfoProps) => {
-	const { getByValue } = useCountries();
-
-	const coordinate = getByValue(locationValue)?.latlng;
 	return (
 		<div className="col-span-4 flex flex-col gap-8">
 			<div className="flex flex-col  gap-2">
@@ -56,8 +53,7 @@ const ListingInfo = ({
 			)}
 			<hr />
 			<div className="text-lg font-light text-neutral-500">{description}</div>
-			<hr />
-			<Map center={coordinate} />
+		
 		</div>
 	);
 };
