@@ -5,10 +5,12 @@ import { categories } from "@/app/components/Navbar/categories";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
 import ListingHead from "@/app/components/listings/ListtingHead";
+import useCountries from "@/app/hooks/useCountries";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { SafeListing, SafeReservation, SafeUser } from "@/types";
 import axios from "axios";
 import { differenceInDays, eachDayOfInterval } from "date-fns";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Range } from "react-date-range";
@@ -20,21 +22,29 @@ const initialDateRange = {
 	key: "selection",
 };
 
+const Map = dynamic(() => import("@/app/components/Map"), { ssr: false });
+
 interface ListingClientProps {
 	currentUser?: SafeUser | null;
 	listing: SafeListing & {
 		user: SafeUser;
 	};
 	reservation?: SafeReservation[];
+	locationValue?: string | null;
 }
 
 const ListingClient = ({
 	listing,
 	currentUser,
 	reservation,
+	locationValue,
 }: ListingClientProps) => {
 	const loginModal = useLoginModal();
 	const router = useRouter();
+
+	const { getByValue } = useCountries();
+
+	const coordinates = getByValue(locationValue || "")?.latlng
 
 	const disableDataes = useMemo(() => {
 		let dates: Date[] = [];
@@ -131,6 +141,7 @@ const ListingClient = ({
 							/>
 						</div>
 					</div>
+					<Map  center={coordinates}/>
 				</div>
 			</div>
 		</Container>
