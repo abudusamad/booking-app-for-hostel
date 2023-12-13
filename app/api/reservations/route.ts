@@ -11,15 +11,15 @@ export async function POST(req: Request) {
 
 		const body = await req.json();
 
-		const { listId, startDate, endDate, totalPrice } = body;
+		const { listingId, startDate, endDate, totalPrice } = body;
 
-		if (!listId || !startDate || !endDate || !totalPrice) {
+		if (!listingId || !startDate || !endDate || !totalPrice) {
 			return new NextResponse("Missing required fields", { status: 400 });
 		}
 
 		const listing = await prisma.listing.findUnique({
 			where: {
-				id: listId,
+				id: listingId,
 			},
 		});
 		if (!listing) {
@@ -28,9 +28,9 @@ export async function POST(req: Request) {
 
 		const listingReservations = await prisma.reservation.create({
 			data: {
-				userId: currentUser.id,
-				listingId: listId,
 				startDate,
+				userId: currentUser.id,
+				listingId,
 				endDate,
 				totalPrice,
 			},
