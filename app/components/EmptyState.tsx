@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Button from "./Button";
 import Heading from "./Heading";
 
@@ -13,7 +14,8 @@ const EmpltyState = ({
     title = "No listings found",
     subtitle = "Try adjusting your search or filters to find what you're looking for.",
     showReset,
-}:EmptyStateProps) => {
+}: EmptyStateProps) => {
+    const router = useRouter();
     return (<div className="h-[60vh] flex flex-col gap-2 justify-center items-center ">
         <Heading title={title} subtitle={subtitle} />
         
@@ -22,7 +24,7 @@ const EmpltyState = ({
                 <Button
                     outline
                     label="Remove all filters"
-                    onClick={() => {}}
+                    onClick={()=>router.push("/")}
                    
                 >
                 </Button>

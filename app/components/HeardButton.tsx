@@ -1,5 +1,5 @@
 import { SafeUser } from "@/types";
-import { AiFillHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import useFavorite from "../hooks/useFavorite";
 
 interface HeartButtonProps {
@@ -22,6 +22,11 @@ const HeartButton = ({ listingId, currentUser }: HeartButtonProps) => {
         cursor-pointer
       "
 		>
+			<AiOutlineHeart
+				size={26}
+			className="absolute -right-2 -top-2 text-white "
+			
+			/>
 			<AiFillHeart
 				size={30}
 				className={`absolute -right-2 -top-2 ,
