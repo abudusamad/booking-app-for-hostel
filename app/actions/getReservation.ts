@@ -1,32 +1,58 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prismadb";
 
-export default async function getReservation(
-	req: NextApiRequest,
-	res: NextApiResponse
-) {
-	if (req.method === "GET") {
-		const { reservationId } = req.query;
+interface IParams {
+	listingId?: string;
+	authorId?: string;
+	listing?: { userId: string };
+	userId?: string;
+}
 
-		if (!reservationId) {
-			return res.status(400).json({ error: "Missing reservationId" });
+export default async function getReservation(params: IParams) {
+	try {
+		const { listingId, authorId, listing, userId } = params;
+		const query: IParams = {};
+		if (listingId) {
+			query.listingId = listingId;
 		}
-
-		const reservation = await prisma.reservation.findUnique({
-            where: { id: String(reservationId) },
-            include: {
-                listing: true,
-            },
+		if (authorId) {
+			query.authorId = authorId;
+		}
+		if (listing) {
+			query.listing = listing;
+		}
+		if (userId) {
+			query.userId = userId;
+		}
+		const reservations = await prisma.reservation.findMany({
+			where: query,
+			include: {
+				listing: true,
+				user: true,
+			},
+			orderBy: {
+				createdAt: "asc",
+			},
 		});
+		const safeReservations = reservations.map((reservation) => ({
+			...reservation,
+			createdAt: reservation.createdAt.toISOString(),
+			startDate: reservation.startDate.toISOString(),
+			endDate: reservation.endDate.toISOString(),
 
-		if (!reservation) {
-			return res.status(404).json({ error: "Reservation not found" });
-		}
-
-		return res.status(200).json(reservation);
+			listing: {
+				...reservation.listing,
+				createdAt: reservation.listing.createdAt.toISOString(),
+			},
+			user: {
+				...reservation.user,
+				createdAt: reservation.user.createdAt.toISOString(),
+				updatedAt: reservation.user.updatedAt.toISOString(),
+				emailVerified: reservation.user.emailVerified?.toISOString() || null,
+			},
+		}));
+		return safeReservations;
+	} catch (error: any) {
+		console.error("Error in getReservations:", error);
+		throw new Error("An error occurred while fetching reservations.");
 	}
-
-	// Handle any other HTTP methods
-	res.setHeader("Allow", ["GET"]);
-	res.status(405).end(`Method ${req.method} Not Allowed`);
 }
