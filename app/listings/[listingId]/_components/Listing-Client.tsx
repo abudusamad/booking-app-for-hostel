@@ -3,6 +3,7 @@
 import { Container } from "@/app/components/Containter";
 import { categories } from "@/app/components/Navbar/categories";
 import ListingInfo from "@/app/components/listings/ListingInfo";
+import ListingReservation from "@/app/components/listings/ListingReservation";
 import ListingHead from "@/app/components/listings/ListtingHead";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { SafeListing, SafeReservation, SafeUser } from "@/types";
@@ -118,15 +119,15 @@ const ListingClient = ({
 							guestCount={listing.guestCount}
 							locationValue={listing.locationValue}
 						/>
-						<div>
+						<div className="order-first mb-10 md:order-last md:col-span-3">
 							<ListingReservation
 								price={listing.price}
 								totalPrice={totalPrice}
-								onChange={(value) => setDateRange(value)}
+								onChangeDate={(value) => setDateRange(value)}
 								dateRange={dateRange}
 								onSubmit={onCreateReservation}
 								disabled={isLoading}
-								disableDataes={disableDataes}
+								disabledDates={disableDataes}
 							/>
 						</div>
 					</div>
