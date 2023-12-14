@@ -9,14 +9,17 @@ export default async function getFavoriteListing() {
 			return [];
 		}
 
-		const favoriteListings = await prisma.listing.findMany({
+		const favorites = await prisma.listing.findMany({
 			where: {
 				id: {
-					in: currentUser.favoriteIds,
+					in: [...(currentUser.favoriteIds || [])],
 				},
 			},
 		});
-		return favoriteListings;
+		const safeFavorites = favorites.map((favorite) => ({
+			...favorite,
+			createdAt: favorite.createdAt.toISOString(),
+		}));
 	} catch (error: any) {
 		throw new Error(error);
 	}

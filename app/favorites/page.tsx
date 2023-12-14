@@ -2,12 +2,13 @@ import getCurrentUser from "../actions/getCurrentUser";
 import getFavoriteListing from "../actions/getFavoriteListing";
 import ClientOnly from "../components/ClientOnly";
 import EmpltyState from "../components/EmptyState";
+import FavoritesClient from "./_components/Favorite-Client";
 
 const FavoritesPage = async () => {
 	const listings = await getFavoriteListing();
 	const currentUser = await getCurrentUser();
 
-	if (listings.length === 0) {
+	if (!listings || listings.length === 0) {
 		return (
 			<ClientOnly>
 				<EmpltyState
