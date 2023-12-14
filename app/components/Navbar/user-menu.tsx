@@ -4,19 +4,22 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import { SafeUser } from "@/types";
 import { signOut } from "next-auth/react";
-import { useCallback, useState } from "react";
+import { KeyboardEvent, useCallback, useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { MdOutlineLogin, MdOutlineLogout } from "react-icons/md";
 import { Avatar } from "../Avatar";
 import MenuItem from "./menu-item";
 import useRentalModal from "@/app/hooks/useRentalModal";
+import { useRouter } from "next/navigation";
 
 interface UserMenuProps {
 	currentUser?: SafeUser | null;
+	onClose: () => void;
 }
 
-const UserMenu = ({ currentUser }: UserMenuProps) => {
+const UserMenu = ({ currentUser, onClose }: UserMenuProps) => {
 	const [isOpen, setIsOpen] = useState(false);
+	const router = useRouter();
 
 	const registerModal = useRegisterModal();
 	const loginModal = useLoginModal();
@@ -51,17 +54,17 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
 				>
 					<div className="flex flex-col cursor-pointer">
 						{currentUser ? (
-							<>
-								<MenuItem label="My trips" onClick={() => {}} />
-								<MenuItem label="My favorites" onClick={() => {}} />
-								<MenuItem label="My reservation" onClick={() => {}} />
-								<MenuItem label="my properties" onClick={() => {}} />
+							<div onClick={(e)=>e.stopPropagation()}>
+								<MenuItem label="My trips" onClick={ ()=>router.push("/trips")} />
+								<MenuItem label="My favorites" onClick={()=>router.push('/favorites')} />
+								<MenuItem label="My reservation" onClick={() =>router.push("/reservations")} />
+								<MenuItem label="my properties" onClick={() =>router.push("/properties")} />
 								<MenuItem label="Airbnb your home" onClick={rentalModal.onOpen} />
 								<hr />
 								<MenuItem label="Layout" onClick={signOut} />
-							</>
+							</div>
 						) : (
-							<>
+							<div onClick={(e)=>e.stopPropagation()}>
 								<MenuItem
 									label="Log In"
 									onClick={loginModal.onOpen}
@@ -72,7 +75,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
 									onClick={registerModal.onOpen}
 							
 								/>
-							</>
+							</div>
 						)}
 					</div>
 				</div>
