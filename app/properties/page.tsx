@@ -2,6 +2,7 @@ import getCurrentUser from "../actions/getCurrentUser";
 import getListings from "../actions/getListings";
 import ClientOnly from "../components/ClientOnly";
 import EmpltyState from "../components/EmptyState";
+import PropertiesClient from "./_components/properties-client";
 
 const PropertiesPage = async () => {
     const currentUser = await getCurrentUser();
@@ -18,9 +19,13 @@ const PropertiesPage = async () => {
     }
 
     const listings = await getListings({userId: currentUser.id})
-    return (<div>
-        <h1>Properties</h1>
-    </div> );
+    return (<ClientOnly>
+        <PropertiesClient
+            listings={listings}
+            currentUser={currentUser}
+        
+        />
+    </ClientOnly> );
 }
  
 export default PropertiesPage;
