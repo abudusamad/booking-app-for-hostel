@@ -10,6 +10,8 @@ import CountrySelect, { CountrySelectValue } from "../inputs/country-select";
 import Modal from "./modal";
 import DatePicker from "../inputs/calendar";
 import Counter from "../inputs/counter";
+import queryString from "query-string";
+import { formatISO, set } from "date-fns";
 
 enum STEPS {
 	LOCATION = 0,
@@ -56,6 +58,53 @@ const SearchModal = () => {
 		}
 		return "Next";
 	}, [step]);
+
+	const secondaryActionLabel = useMemo(() => {
+		if (step === STEPS.LOCATION) {
+			return undefined
+		}
+		return "Back"
+	}, [step])
+	
+	const onSubmit = useCallback(() => {
+		if (step !== STEPS.INFO) {
+			return onNext();
+		}
+
+		let currentQuery = {};
+
+		if (params) {
+			currentQuery = queryString.parse(params.toString());
+		}
+
+		const updatedQuery: any = {
+			...currentQuery,
+			...dateRange,
+			locationVaue: location?.value,
+			guestCount,
+			roomCount,
+			bathroomCount,
+		};
+
+		if (dateRange.startDate) {
+			updatedQuery.startDate = formatISO(dateRange.startDate)
+		}
+
+		if (dateRange.endDate) {
+			updatedQuery.endDate = formatISO(dateRange.endDate);
+		}
+
+		const url = queryString.stringifyUrl({
+			url: "/",
+			query: updatedQuery,
+		}, { skipEmptyString: true, skipNull: true });
+
+		setStep(STEPS.LOCATION);
+		searchModal.onClose();
+		router.push(url);
+
+
+	}, [step, onNext, dateRange, location, guestCount, roomCount, bathroomCount, params,searchModal, router]);
 
 	let bodyContent = (
 		<div className="flex flex-col gap-8">
@@ -121,12 +170,13 @@ const SearchModal = () => {
 	return (
 		<Modal
 			isOpen={searchModal.isOpen}
-			title="Airbnb your home"
+			title="Filter"
 			onClose={searchModal.onClose}
-			onSubmit={onNext}
+			onSubmit={onSubmit}
 			secondaryAction={step === STEPS.LOCATION ? undefined : onBack}
 			body={bodyContent}
 			actionLabel={actionaLel}
+			secondaryActionLabel={secondaryActionLabel}
 		/>
 	);
 };
