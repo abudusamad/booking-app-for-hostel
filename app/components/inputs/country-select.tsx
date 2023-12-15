@@ -15,7 +15,7 @@ interface CountrySelectProps {
 	onChange: (value: CountrySelectValue) => void;
 }
 
-const ContrySelect = ({ value, onChange }: CountrySelectProps) => {
+const CountrySelect = ({ value, onChange }: CountrySelectProps) => {
 	const { getAll } = useCountries();
 	return (
 		<div>
@@ -57,4 +57,4 @@ const ContrySelect = ({ value, onChange }: CountrySelectProps) => {
 	);
 };
 
-export default ContrySelect;
+export default CountrySelect;

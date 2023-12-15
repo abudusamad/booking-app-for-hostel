@@ -39,8 +39,8 @@ const Map = ({ center }: MapProps) => {
 		<MapContainer
 			center={(location as L.LatLngExpression) || [51, -0.09]}
 			zoom={13}
-			style={{ height: "100vh", width: "100%" }}
 			scrollWheelZoom={true}
+				className="h-[35vh] rounded-lg"
 		>
 			<TileLayer url={url} attribution={attribution} />
 			<Marker position={location as L.LatLngExpression} />
