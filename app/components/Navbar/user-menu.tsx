@@ -13,10 +13,9 @@ import MenuItem from "./menu-item";
 
 interface UserMenuProps {
 	currentUser?: SafeUser | null;
-	
 }
 
-const UserMenu = ({ currentUser}: UserMenuProps) => {
+const UserMenu = ({ currentUser }: UserMenuProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const router = useRouter();
 
@@ -29,7 +28,6 @@ const UserMenu = ({ currentUser}: UserMenuProps) => {
 			return loginModal.onOpen();
 		}
 		rentalModal.onOpen();
-		
 	}, [currentUser, loginModal, rentalModal]);
 
 	const togggleOpen = useCallback(() => {
@@ -50,7 +48,7 @@ const UserMenu = ({ currentUser}: UserMenuProps) => {
 				>
 					<AiOutlineMenu />
 					<div className="hidden md:block">
-						<Avatar src={currentUser?.image}/>
+						<Avatar src={currentUser?.image} />
 					</div>
 				</div>
 			</div>
