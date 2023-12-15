@@ -1,15 +1,17 @@
 import prisma from "@/lib/prismadb";
+import { Reservation } from "@prisma/client";
 
 interface IParams {
 	listingId?: string;
 	authorId?: string;
 	listing?: { userId: string };
 	userId?: string;
+	reservationId?: string;
 }
 
 export default async function getReservation(params: IParams) {
 	try {
-		const { listingId, authorId, listing, userId } = params;
+		const { listingId, authorId, listing, userId, reservationId } = params;
 		const query: IParams = {};
 		if (listingId) {
 			query.listingId = listingId;
@@ -24,7 +26,11 @@ export default async function getReservation(params: IParams) {
 			query.userId = userId;
 		}
 		const reservations = await prisma.reservation.findMany({
-			where: query,
+			where: {
+				listingId: query.listingId,
+				id: query.reservationId,
+			},
+	
 			include: {
 				listing: true,
 				user: true,
@@ -35,9 +41,9 @@ export default async function getReservation(params: IParams) {
 		});
 		const safeReservations = reservations.map((reservation) => ({
 			...reservation,
-			createdAt: reservation.createdAt.toISOString(),
-			startDate: reservation.startDate.toISOString(),
-			endDate: reservation.endDate.toISOString(),
+			createdAt: reservation.createdAt?.toISOString(),
+			startDate: reservation.startDate?.toISOString(),
+			endDate: reservation.endDate?.toISOString(),
 
 			listing: {
 				...reservation.listing,
@@ -48,6 +54,7 @@ export default async function getReservation(params: IParams) {
 				createdAt: reservation.user.createdAt.toISOString(),
 				updatedAt: reservation.user.updatedAt.toISOString(),
 				emailVerified: reservation.user.emailVerified?.toISOString() || null,
+
 			},
 		}));
 		return safeReservations;
