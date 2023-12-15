@@ -7,7 +7,7 @@ const ModalProvider = () => {
         <>
             <RegisterModal />
             <LoginModal />
-            <RentalModal/>
+            <RentalModal />
         </>
     );
 }
