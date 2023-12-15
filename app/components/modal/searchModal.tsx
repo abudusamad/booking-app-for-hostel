@@ -8,6 +8,8 @@ import { Range } from "react-date-range";
 import Heading from "../Heading";
 import CountrySelect, { CountrySelectValue } from "../inputs/country-select";
 import Modal from "./modal";
+import DatePicker from "../inputs/calendar";
+import Counter from "../inputs/counter";
 
 enum STEPS {
 	LOCATION = 0,
@@ -56,7 +58,7 @@ const SearchModal = () => {
 	}, [step]);
 
 	let bodyContent = (
-		<div>
+		<div className="flex flex-col gap-8">
 			<Heading
 				title="Where are you going"
 				subtitle="Add dates for accurate pricing and availability"
@@ -68,7 +70,53 @@ const SearchModal = () => {
 			<hr />
 			<Map center={location?.latlng} />
 		</div>
-	);
+	)
+	if (step === STEPS.DATE) {
+		bodyContent = (
+			<div className="flex flex-col gap-8">
+				<Heading
+					title="Add your travel dates"	
+					subtitle="Add dates for accurate pricing and availability"
+				/>
+				<DatePicker
+					value={dateRange}
+					onChange={(value) => setDateRange(value as Range)}
+				/>
+			</div>
+		)
+	}
+	if (step === STEPS.INFO) {
+		bodyContent = (
+			<div className="flex flex-col gap-8">
+				<Heading
+					title="More info about your trip"
+					subtitle="Add dates for accurate pricing and availability"
+				/>
+
+				<Counter
+					onChange={(value) => setGuestCount(value)}
+					value={guestCount}
+					title="Guests"
+					subtitle="How many guests?"
+				/>
+				<hr />
+				<Counter
+					onChange={(value) => setRoomCount(value)}
+					value={roomCount}
+					title="Rooms"
+					subtitle="How many room is needed?"
+				/>
+				<hr />
+				<Counter
+					onChange={(value) => setBathroomCount(value)}
+					value={bathroomCount}
+					title="Bathrooms"
+					subtitle="How many bathroom is needed?"
+				/>
+				<hr />
+			</div>
+		);
+	}
 
 	return (
 		<Modal
