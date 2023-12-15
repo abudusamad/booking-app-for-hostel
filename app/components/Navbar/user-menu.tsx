@@ -2,28 +2,35 @@
 
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import useRentalModal from "@/app/hooks/useRentalModal";
 import { SafeUser } from "@/types";
 import { signOut } from "next-auth/react";
-import { KeyboardEvent, useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import { MdOutlineLogin, MdOutlineLogout } from "react-icons/md";
 import { Avatar } from "../Avatar";
 import MenuItem from "./menu-item";
-import useRentalModal from "@/app/hooks/useRentalModal";
-import { useRouter } from "next/navigation";
 
 interface UserMenuProps {
 	currentUser?: SafeUser | null;
-	onClose: () => void;
+	
 }
 
-const UserMenu = ({ currentUser, onClose }: UserMenuProps) => {
+const UserMenu = ({ currentUser}: UserMenuProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const router = useRouter();
 
 	const registerModal = useRegisterModal();
 	const loginModal = useLoginModal();
 	const rentalModal = useRentalModal();
+
+	const onRent = useCallback(() => {
+		if (!currentUser) {
+			return loginModal.onOpen();
+		}
+		rentalModal.onOpen();
+		
+	}, [currentUser, loginModal, rentalModal]);
 
 	const togggleOpen = useCallback(() => {
 		setIsOpen((value) => !value);
@@ -32,8 +39,9 @@ const UserMenu = ({ currentUser, onClose }: UserMenuProps) => {
 		<div className="relative">
 			<div className="flex items-center gap-3">
 				<div
-					onClick={rentalModal.onOpen}
-					className="text-semibold px-4 py-2 rounded-full hover:bg-neutral-100 transition cursor-pointer text-xl hidden md:block">
+					onClick={onRent}
+					className="text-semibold px-4 py-2 rounded-full hover:bg-neutral-100 transition cursor-pointer text-xl hidden md:block"
+				>
 					Airbnb your home
 				</div>
 				<div
@@ -42,7 +50,7 @@ const UserMenu = ({ currentUser, onClose }: UserMenuProps) => {
 				>
 					<AiOutlineMenu />
 					<div className="hidden md:block">
-						<Avatar />
+						<Avatar src={currentUser?.image}/>
 					</div>
 				</div>
 			</div>
@@ -54,27 +62,34 @@ const UserMenu = ({ currentUser, onClose }: UserMenuProps) => {
 				>
 					<div className="flex flex-col cursor-pointer">
 						{currentUser ? (
-							<div onClick={(e)=>e.stopPropagation()}>
-								<MenuItem label="My trips" onClick={ ()=>router.push("/trips")} />
-								<MenuItem label="My favorites" onClick={()=>router.push('/favorites')} />
-								<MenuItem label="My reservation" onClick={() =>router.push("/reservations")} />
-								<MenuItem label="my properties" onClick={() =>router.push("/properties")} />
-								<MenuItem label="Airbnb your home" onClick={rentalModal.onOpen} />
+							<div onClick={(e) => e.stopPropagation()}>
+								<MenuItem
+									label="My trips"
+									onClick={() => router.push("/trips")}
+								/>
+								<MenuItem
+									label="My favorites"
+									onClick={() => router.push("/favorites")}
+								/>
+								<MenuItem
+									label="My reservation"
+									onClick={() => router.push("/reservations")}
+								/>
+								<MenuItem
+									label="My properties"
+									onClick={() => router.push("/properties")}
+								/>
+								<MenuItem
+									label="Airbnb your home"
+									onClick={rentalModal.onOpen}
+								/>
 								<hr />
 								<MenuItem label="Layout" onClick={signOut} />
 							</div>
 						) : (
-							<div onClick={(e)=>e.stopPropagation()}>
-								<MenuItem
-									label="Log In"
-									onClick={loginModal.onOpen}
-									
-								/>
-								<MenuItem
-									label="Sign Up"
-									onClick={registerModal.onOpen}
-							
-								/>
+							<div onClick={(e) => e.stopPropagation()}>
+								<MenuItem label="Log In" onClick={loginModal.onOpen} />
+								<MenuItem label="Sign Up" onClick={registerModal.onOpen} />
 							</div>
 						)}
 					</div>
