@@ -1,12 +1,12 @@
 import Image from "next/image";
 interface AvatarProps {
-	src?: string | null;
+	src?: string | null| undefined;
 }
 
 export const Avatar = ({ src }: AvatarProps) => {
 	return (
 		<Image
-			src="/images/placeholder.jpg"
+			src={src || "/images/placeholder.jpg"}
 			alt="Avatar"
 			className="rounded-full cursor-pointer"
 			width={35}
