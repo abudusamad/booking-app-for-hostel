@@ -14,6 +14,7 @@ interface PropertiesClientProps {
 	currentUser?: SafeUser | null;
 }
 
+
 const PropertiesClient = ({ listings, currentUser }: PropertiesClientProps) => {
 	const [deleteId, setDeleteId] = useState("");
 	const router = useRouter();
@@ -28,7 +29,7 @@ const PropertiesClient = ({ listings, currentUser }: PropertiesClientProps) => {
 					router.refresh();
 				})
 				.catch((error) => {
-					toast.error(error.response.data.message);
+					toast.error(error.response?.data?.message);
 				})
 				.finally(() => {
 					setDeleteId("");
