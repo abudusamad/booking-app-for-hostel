@@ -5,6 +5,10 @@ import { IconType } from "react-icons";
 import { SafeUser } from "@/types";
 import { Avatar } from "../Avatar";
 import ListingCategory from "./ListingCategory";
+import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
+import { useEffect, useState } from "react";
 
 interface ListingInfoProps {
 	user: SafeUser;
@@ -31,6 +35,14 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
 	category,
 	locationValue,
 }) => {
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setIsLoading(false);
+		}, 2000);
+		return () => clearTimeout(timer);
+	}, []);
 	return (
 		<div className="col-span-4 flex flex-col gap-8">
 			<div className="flex flex-col gap-2">

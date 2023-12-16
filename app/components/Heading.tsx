@@ -1,16 +1,15 @@
 "use client";
+
 import { useEffect, useState } from "react";
-import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import Skeleton from "react-loading-skeleton";
 
 interface HeadingProps {
 	title: string;
-	subtitle?: string;
+	subtitle: string;
 	center?: boolean;
 }
 
 const Heading = ({ title, subtitle, center }: HeadingProps) => {
-
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
@@ -19,6 +18,7 @@ const Heading = ({ title, subtitle, center }: HeadingProps) => {
 		}, 2000);
 		return () => clearTimeout(timer);
 	}, []);
+
 	return (
 		<div className={center ? "text-center" : "text-start"}>
 			{isLoading ? (
