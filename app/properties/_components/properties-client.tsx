@@ -3,15 +3,15 @@
 import { Container } from "@/app/components/Containter";
 import Heading from "@/app/components/Heading";
 import ListingCard from "@/app/components/listings/ListingCard";
-import { SafeListing, SafeUser } from "@/types";
+import { Listing, User } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 
 interface PropertiesClientProps {
-	listings: SafeListing[];
-	currentUser?: SafeUser | null;
+	listings: Listing[];
+	currentUser?: User | null;
 }
 
 const PropertiesClient = ({ listings, currentUser }: PropertiesClientProps) => {

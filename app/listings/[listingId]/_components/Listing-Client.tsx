@@ -15,8 +15,8 @@ import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
 import ListingHead from "@/app/components/listings/ListtingHead";
 import useCountries from "@/app/hooks/useCountries";
-import { SafeListing, SafeReservation, SafeUser } from "@/types";
 import dynamic from "next/dynamic";
+import { User, Listing,Reservation } from "@prisma/client";
 
 const initialDateRange = {
 	startDate: new Date(),
@@ -28,11 +28,11 @@ const Map = dynamic(() => import("@/app/components/Map"), {
 	ssr: false,
 });
 interface ListingClientProps {
-	reservations?: SafeReservation[];
-	listing: SafeListing & {
-		user: SafeUser;
+	reservations?: Reservation[];
+	listing: Listing & {
+		user: User;
 	};
-	currentUser?: SafeUser | null;
+	currentUser?: User | null;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({

@@ -2,16 +2,16 @@
 
 import { IconType } from "react-icons";
 
-import { SafeUser } from "@/types";
 import { Avatar } from "../Avatar";
 import ListingCategory from "./ListingCategory";
 import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 import { useEffect, useState } from "react";
+import { User } from "@prisma/client";
 
 interface ListingInfoProps {
-	user: SafeUser;
+	user: User;
 	description: string;
 	guestCount: number;
 	roomCount: number;

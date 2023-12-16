@@ -3,16 +3,16 @@
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useRentalModal from "@/app/hooks/useRentalModal";
-import { SafeUser } from "@/types";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { Avatar } from "../Avatar";
 import MenuItem from "./menu-item";
+import { User } from "@prisma/client";
 
 interface UserMenuProps {
-	currentUser?: SafeUser | null;
+	currentUser?: User | null;
 }
 
 const UserMenu = ({ currentUser }: UserMenuProps) => {

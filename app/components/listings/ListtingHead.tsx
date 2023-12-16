@@ -1,7 +1,7 @@
 "use client";
 
 import useCountries from "@/app/hooks/useCountries";
-import { SafeUser } from "@/types";
+
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Heading from "../Heading";
@@ -9,13 +9,14 @@ import HeartButton from "../HeardButton";
 
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { User } from "@prisma/client";
 
 interface ListingHeadProps {
 	title: string;
 	imageSrc: string;
 	locationValue: string;
 	id: string;
-	currentUser?: SafeUser | null;
+	currentUser?: User | null;
 }
 
 const ListingHead = ({

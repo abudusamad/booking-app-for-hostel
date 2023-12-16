@@ -1,10 +1,10 @@
-import { SafeUser } from "@/types";
+import { User } from "@prisma/client";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import useFavorite from "../hooks/useFavorite";
 
 interface HeartButtonProps {
 	listingId: string;
-	currentUser?: SafeUser | null;
+	currentUser?: User | null;
 }
 
 const HeartButton = ({ listingId, currentUser }: HeartButtonProps) => {
@@ -24,8 +24,7 @@ const HeartButton = ({ listingId, currentUser }: HeartButtonProps) => {
 		>
 			<AiOutlineHeart
 				size={26}
-			className="absolute -right-2 -top-2 text-white "
-			
+				className="absolute -right-2 -top-2 text-white "
 			/>
 			<AiFillHeart
 				size={30}

@@ -1,40 +1,43 @@
 "use client";
 
-import { Container } from "@/app/components/Containter";
-import ListingCard from "@/app/components/listings/ListingCard";
-import { SafeReservation, SafeUser } from "@/types";
+import { toast } from "react-hot-toast";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
-import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { User, Reservation } from "@prisma/client";
 
-interface ReservationClientProps {
-	reservations: SafeReservation[];
-	currentUser?: SafeUser | null;
+import Heading from "@/app/components/Heading";
+
+import ListingCard from "@/app/components/listings/ListingCard";
+import { Container } from "@/app/components/Containter";
+
+interface ReservationsClientProps {
+	reservations:Reservation[];
+	currentUser?: User | null;
 }
 
-const ReservationClient = ({
+const ReservationsClient: React.FC<ReservationsClientProps> = ({
 	reservations,
 	currentUser,
-}: ReservationClientProps) => {
+}) => {
 	const router = useRouter();
-
-	const [deleteId, setDeleteId] = useState(" ");
+	const [deletingId, setDeletingId] = useState("");
 
 	const onCancel = useCallback(
 		(id: string) => {
-			setDeleteId(id);
+			setDeletingId(id);
+
 			axios
 				.delete(`/api/reservations/${id}`)
 				.then(() => {
-					toast.success("Reservation deleted successfully");
+					toast.success("Reservation cancelled");
 					router.refresh();
 				})
 				.catch(() => {
-					toast.error("Something went wrong");
+					toast.error("Something went wrong.");
 				})
 				.finally(() => {
-					setDeleteId("");
+					setDeletingId("");
 				});
 		},
 		[router]
@@ -42,16 +45,30 @@ const ReservationClient = ({
 
 	return (
 		<Container>
-			<div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 lg:grid-cols-4 2xl:grid-cols-6 gap-8">
+			<Heading title="Reservations" subtitle="Bookings on your properties" />
+			<div
+				className="
+          mt-10
+          grid 
+          grid-cols-1 
+          sm:grid-cols-2 
+          md:grid-cols-3 
+          lg:grid-cols-4
+          xl:grid-cols-5
+          2xl:grid-cols-6
+          gap-8
+        "
+			>
 				{reservations.map((reservation: any) => (
 					<ListingCard
 						key={reservation.id}
-						data={reservation}
-						currentUser={currentUser}
+						data={reservation.listing}
+						reservation={reservation}
 						actionId={reservation.id}
-						disabled={deleteId === reservation.id}
-						actionLabel="Cancel reservation"
 						onAction={onCancel}
+						disabled={deletingId === reservation.id}
+						actionLabel="Cancel guest reservation"
+						currentUser={currentUser}
 					/>
 				))}
 			</div>
@@ -59,4 +76,4 @@ const ReservationClient = ({
 	);
 };
 
-export default ReservationClient;
+export default ReservationsClient;

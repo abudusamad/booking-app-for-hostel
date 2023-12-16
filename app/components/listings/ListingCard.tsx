@@ -7,20 +7,20 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import useCountries from "@/app/hooks/useCountries";
 
-import { SafeListing, SafeReservation, SafeUser } from "@/types";
 import Button from "../Button";
 import HeartButton from "../HeardButton";
 
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { User , Listing, Reservation} from "@prisma/client";
 interface ListingCardProps {
-	data: SafeListing;
-	reservation?: SafeReservation;
+	data: Listing;
+	reservation?: Reservation;
 	onAction?: (id: string) => void;
 	disabled?: boolean;
 	actionLabel?: string;
 	actionId?: string;
-	currentUser?: SafeUser | null;
+	currentUser?: User| null;
 	color?: string;
 }
 

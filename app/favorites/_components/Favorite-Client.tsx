@@ -1,11 +1,12 @@
 import { Container } from "@/app/components/Containter";
 import Heading from "@/app/components/Heading";
 import ListingCard from "@/app/components/listings/ListingCard";
-import { SafeListing, SafeUser } from "@/types";
+import { Listing, User } from "@prisma/client";
+
 
 interface FavoritesClientProps {
-	listings: SafeListing[];
-	currentUser?: SafeUser | null;
+	listings: Listing[];
+	currentUser?: User | null;
 }
 
 const FavoritesClient = async ({listings,currentUser }: FavoritesClientProps) => {
