@@ -10,13 +10,14 @@ import HeartButton from "../HeardButton";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { User } from "@prisma/client";
+import { SafeUser } from "@/types";
 
 interface ListingHeadProps {
 	title: string;
 	imageSrc: string;
 	locationValue: string;
 	id: string;
-	currentUser?: User | null;
+	currentUser?: SafeUser | null;
 }
 
 const ListingHead = ({

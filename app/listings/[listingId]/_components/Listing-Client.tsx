@@ -17,6 +17,7 @@ import ListingHead from "@/app/components/listings/ListtingHead";
 import useCountries from "@/app/hooks/useCountries";
 import dynamic from "next/dynamic";
 import { User, Listing,Reservation } from "@prisma/client";
+import { SafeUser } from "@/types";
 
 const initialDateRange = {
 	startDate: new Date(),
@@ -32,7 +33,7 @@ interface ListingClientProps {
 	listing: Listing & {
 		user: User;
 	};
-	currentUser?: User | null;
+	currentUser?: SafeUser | null;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({
