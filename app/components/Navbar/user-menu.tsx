@@ -3,13 +3,14 @@
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useRentalModal from "@/app/hooks/useRentalModal";
+import { User } from "@prisma/client";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { Avatar } from "../Avatar";
+import FormPopover from "../form-popoover";
 import MenuItem from "./menu-item";
-import { User } from "@prisma/client";
 
 interface UserMenuProps {
 	currentUser?: User | null;
@@ -47,52 +48,56 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
 					className="flex items-center gap-4 rounded-full border-[1px] border-neutral-200 px-3 p-2 shadow-sm hover:shadow-md transition cursor-pointer"
 				>
 					<AiOutlineMenu />
-					<div className="hidden md:block">
-						<Avatar src={currentUser?.image} />
-					</div>
+					{currentUser && (
+						<FormPopover
+							content={
+								<>
+									<MenuItem
+										label="My trips"
+										onClick={() => router.push("/trips")}
+									/>
+									<MenuItem
+										label="My favorites"
+										onClick={() => router.push("/favorites")}
+									/>
+									<MenuItem
+										label="My reservation"
+										onClick={() => router.push("/reservations")}
+									/>
+									<MenuItem
+										label="My properties"
+										onClick={() => router.push("/properties")}
+									/>
+									<MenuItem
+										label="Airbnb your home"
+										onClick={rentalModal.onOpen}
+									/>
+									<hr />
+									<MenuItem label="Layout" onClick={signOut} />
+								</>
+							}
+						>
+							<div className="hidden md:block">
+								<Avatar src={currentUser?.image} />
+							</div>
+						</FormPopover>
+					)}
+					{!currentUser && (
+						<FormPopover
+							content={
+								<div>
+									<MenuItem label="Log In" onClick={loginModal.onOpen} />
+									<MenuItem label="Sign Up" onClick={registerModal.onOpen} />
+								</div>
+							}
+						>
+							<div className="hidden md:block">
+								<Avatar />
+							</div>
+						</FormPopover>
+					)}
 				</div>
 			</div>
-			{isOpen && (
-				<div
-					className="
-                absolute rounded-xl shadow-md w-[20vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm z-10
-                "
-				>
-					<div className="flex flex-col cursor-pointer">
-						{currentUser ? (
-							<div onClick={(e) => e.stopPropagation()}>
-								<MenuItem
-									label="My trips"
-									onClick={() => router.push("/trips")}
-								/>
-								<MenuItem
-									label="My favorites"
-									onClick={() => router.push("/favorites")}
-								/>
-								<MenuItem
-									label="My reservation"
-									onClick={() => router.push("/reservations")}
-								/>
-								<MenuItem
-									label="My properties"
-									onClick={() => router.push("/properties")}
-								/>
-								<MenuItem
-									label="Airbnb your home"
-									onClick={rentalModal.onOpen}
-								/>
-								<hr />
-								<MenuItem label="Layout" onClick={signOut} />
-							</div>
-						) : (
-							<div onClick={(e) => e.stopPropagation()}>
-								<MenuItem label="Log In" onClick={loginModal.onOpen} />
-								<MenuItem label="Sign Up" onClick={registerModal.onOpen} />
-							</div>
-						)}
-					</div>
-				</div>
-			)}
 		</div>
 	);
 };

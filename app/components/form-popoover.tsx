@@ -2,18 +2,18 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 interface FormPopoverProps {
 	children: React.ReactNode;
-	sideOffset: number;
+	sideOffset?: number;
 	content: React.ReactNode;
-	side: "top" | "bottom" | "left" | "right";
-	align: "start" | "center" | "end";
+	side?: "top" | "bottom" | "left" | "right";
+	align?: "start" | "center" | "end";
 }
 
 const FormPopover = ({
 	children,
-	sideOffset = 4,
+	sideOffset = 0,
 	content,
-	side = "top",
-	align = "center",
+	side = "bottom",
+	align = "end",
 }: FormPopoverProps) => {
 	return (
 		<Popover>
