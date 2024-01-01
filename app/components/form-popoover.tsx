@@ -10,7 +10,7 @@ interface FormPopoverProps {
 
 const FormPopover = ({
 	children,
-	sideOffset = 0,
+	sideOffset = 8,
 	content,
 	side = "bottom",
 	align = "end",
