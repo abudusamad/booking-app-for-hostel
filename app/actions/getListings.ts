@@ -9,51 +9,51 @@ export interface IListingsParams {
 	endDate?: string;
 	locationValue?: string;
 	category?: string;
-} 
-export default async function getListings(params: IListingsParams = {} ) {
+}
+export default async function getListings(params: IListingsParams = {}) {
 	try {
-		 const {
-				userId,
-				roomCount,
-				guestCount,
-				bathroomCount,
-				locationValue,
-				startDate,
-				endDate,
-				category,
-			} = params;
+		const {
+			userId,
+			roomCount,
+			guestCount,
+			bathroomCount,
+			locationValue,
+			startDate,
+			endDate,
+			category,
+		} = params;
 
-			let query: any = {};
+		let query: any = {};
 
-			if (userId) {
-				query.userId = userId;
-			}
+		if (userId) {
+			query.userId = userId;
+		}
 
-			if (category) {
-				query.category = category;
-			}
+		if (category) {
+			query.category = category;
+		}
 
-			if (roomCount) {
-				query.roomCount = {
-					gte: +roomCount,
-				};
-			}
+		if (roomCount) {
+			query.roomCount = {
+				gte: +roomCount,
+			};
+		}
 
-			if (guestCount) {
-				query.guestCount = {
-					gte: +guestCount,
-				};
-			}
+		if (guestCount) {
+			query.guestCount = {
+				gte: +guestCount,
+			};
+		}
 
-			if (bathroomCount) {
-				query.bathroomCount = {
-					gte: +bathroomCount,
-				};
-			}
+		if (bathroomCount) {
+			query.bathroomCount = {
+				gte: +bathroomCount,
+			};
+		}
 
-			if (locationValue) {
-				query.locationValue = locationValue;
-			}
+		if (locationValue) {
+			query.locationValue = locationValue;
+		}
 		if (startDate && endDate) {
 			query.reservations = {
 				every: {
@@ -90,7 +90,6 @@ export default async function getListings(params: IListingsParams = {} ) {
 			},
 		});
 		return listings;
-
 	} catch (error: any) {
 		throw new Error(error);
 	}
