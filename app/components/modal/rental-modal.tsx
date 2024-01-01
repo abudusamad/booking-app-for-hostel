@@ -1,12 +1,14 @@
 "use client";
 
 import { categories } from "@/app/components/Navbar/categories";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import useRentalModal from "@/app/hooks/useRentalModal";
+import axios from "axios";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
 import CategoryCard from "../inputs/category-card";
@@ -14,8 +16,6 @@ import Counter from "../inputs/counter";
 import ContrySelect from "../inputs/country-select";
 import ImageUpload from "../inputs/image-upload";
 import Modal from "./modal";
-import axios from "axios";
-import toast from "react-hot-toast";
 
 enum STEPS {
 	CATEGORY = 0,
@@ -31,6 +31,7 @@ const RentalModal = () => {
 
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
+	const [isMounted, setIsMounted] = useState(false);
 	const [step, setStep] = useState(STEPS.CATEGORY);
 
 	const {
@@ -69,14 +70,12 @@ const RentalModal = () => {
 		[]
 	);
 
-
 	const secondaryActionLabel = useMemo(() => {
 		if (step === STEPS.CATEGORY) {
 			return undefined;
 		}
 		return "Back";
 	}, [step]);
-	
 
 	const setCustomeValue = (id: string, value: any) => {
 		setValue(id, value, {
@@ -114,7 +113,8 @@ const RentalModal = () => {
 		}
 		setIsLoading(true);
 
-		axios.post("/api/listings", data)
+		axios
+			.post("/api/listings", data)
 			.then(() => {
 				toast.success("Listing created successfully");
 				router.refresh();
@@ -128,6 +128,13 @@ const RentalModal = () => {
 			.finally(() => {
 				setIsLoading(false);
 			});
+	};
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
+
+	if (!isMounted) {
+		return null;
 	}
 
 	let bodyContent = (
@@ -234,7 +241,6 @@ const RentalModal = () => {
 					required
 					disabled={isLoading}
 				/>
-				
 			</div>
 		);
 	}
