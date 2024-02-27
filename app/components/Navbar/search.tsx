@@ -1,7 +1,5 @@
 "use client";
 
-
-
 import useCountries from "@/app/hooks/useCountries";
 import useSearchModal from "@/app/hooks/useSearchModal";
 import { differenceInDays } from "date-fns";
