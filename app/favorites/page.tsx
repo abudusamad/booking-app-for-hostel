@@ -1,3 +1,4 @@
+import { SafeUser } from "@/types";
 import getCurrentUser from "../actions/getCurrentUser";
 import getFavoriteListing from "../actions/getFavoriteListing";
 import ClientOnly from "../components/ClientOnly";
@@ -20,7 +21,7 @@ const FavoritesPage = async () => {
 	}
 	return (
 		<ClientOnly>
-			<FavoritesClient listings={listings} currentUser={currentUser} />
+			<FavoritesClient listings={listings} currentUser={currentUser as unknown as SafeUser} />
 		</ClientOnly>
 	);
 };
